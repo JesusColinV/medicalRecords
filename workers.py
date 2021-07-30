@@ -115,7 +115,7 @@ class CarrierKv:
                 message.text = 'Uno o más campos están vacíos'
             else: 
                 message.text = str(e)
-                
+
     def check_memory(self,DB_PATH):
         self.ids.container.clear_widgets()
         con = sqlite3.connect(DB_PATH)
@@ -188,15 +188,14 @@ class CarrierKv:
 
 class BuilderKv(ScreenManager):
     def __init__(self,**kwargs):
-        super(BuilderKv,self).__init__()
+        #super(BuilderKv,self).__init__()
         self.APP_PATH = os.getcwd()
         self.DB_PATH = self.APP_PATH+'/my_database.db'
         #self.DataBaseWid = DataBaseWid(self)
         #self.InsertDataWid = BoxLayout()
         #self.UpdateDataWid = BoxLayout()
         #self.Popup = MessagePopup()
-        print("hola mundo")
-        self.openApp()
+        #self.openApp()
 
     ''' wid = Screen(name='database')
         #wid.add_widget(self.DataBaseWid)
@@ -210,10 +209,10 @@ class BuilderKv(ScreenManager):
         self.goto_start()'''
         
     def openApp(self):
-        myCarrier = CarrierKv()
-        myCarrier.connect_to_database(self.DB_PATH,'create')
-    
-    
+        self.myCarrier = CarrierKv()
+        self.myCarrier.connect_to_database(self.DB_PATH,'create')
+    def submitRecord(self):
+        self.myCarrier.connect_to_database(self.DB_PATH,'insert')
         #self.goto_database()
 '''
     def goto_start(self):

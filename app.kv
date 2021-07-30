@@ -2,10 +2,6 @@
 #: import images_path kivymd.images_path
 
 
-<RegisterLayout>:
-#FloatLayout:
-#size= root.width, root.height(2)
-
 
 <TextIn@MDTextField>:
     fill_color: 0, 0, 0, .3
@@ -18,8 +14,7 @@
             OneLineAvatarListItem:
                 text: "LUZ SM"
                 IconLeftWidget:
-                    icon: "C:\\Users\\ASUS\\Desktop\\clone\\KivyMD\\LUZ2.0\\metadata\\LUZ.ico"
-                
+                    icon: ".\\metadata\\LUZ.ico"
 
             OneLineListItem:
                 text: "Paciente"
@@ -62,14 +57,17 @@
                     halign: "center"
             Screen:
                 name: "scrPacientes"
-
-                FloatLayout:
+                Screen:
                 #size= root.width, root.height(2)
-                    MDTextField:
+                    TextIn:
+                        id: txtInputSearch
                         hint_text: "Buscar Paciente"
                         fill_color: 0, 0, 0, .3
+                        #size_hint: (None,None)
+                        #size: (dp(100),dp(100))
                         size_hint_x: .5
                         pos_hint: {"x":0.05, "y":0.7}
+
                     MDRaisedButton:
                         text: "Registrar"
                         icon_left: 'pencil-plus-outline'
@@ -81,10 +79,18 @@
                         text: "Buscar"
                         md_bg_color: 0, 0, 0.8, 0.4
                         pos_hint: {"x":0.7, "y":0.7}
+                        on_press:
+                            root.Search()
+                    MDBoxLayout:
+                        id: table_box
+                        pos_hint: {"center_x":.5,"top":.5}
+                        size_hint: .5,.3
             Screen:
                 name: 'scrRegistro'
                 #orientation: 'lr-bt'
-                StackLayout:
+                #StackLayout:
+                RegisterPage:
+                    id: registerPage
                     orientation: 'lr-tb'
                     padding: ("80dp","80dp","100dp","600dp")
                     spacing: "100dp","30dp"
@@ -131,7 +137,7 @@
                         on_release: root.show_date_picker()
                     MDLabel:
                         id: txtInputDate
-                        text: "MDLabel"
+                        text: "Fecha"
                         size_hint: (None,None)
                         size: (dp(100),dp(100))
                     TextIn:
@@ -190,51 +196,7 @@
                         size_hint: (None,None)
                         size: (dp(100),dp(100))
                         #pos_hint: {"x":0.5, "y":0.7}
-                    TextIn:
-                        id: txtInputAPat
-                        hint_text: "Antecedentes patologicos"
-                        size_hint: (None,None)
-                        size: (dp(100),dp(100))
-                        #pos_hint: {"x":0.05, "y":0.1}
-                    TextIn:
-                        id: txtInputANPat
-                        hint_text: "Antecedentes no patologicos"
-                        size_hint: (None,None)
-                        size: (dp(100),dp(100))
-                        #pos_hint: {"x":0.05, "y":0.1}
                     
-                    
-                    
-                    TextIn:
-                        id: txtInputProc
-                        hint_text: "Procedimientos"
-                        size_hint: (None,None)
-                        size: (dp(100),dp(100))
-                        #pos_hint: {"x":0.5, "y":0.6}
-                    TextIn:
-                        id: txtInputHered
-                        hint_text: "Enf. Hereditarias"
-                        size_hint: (None,None)
-                        size: (dp(100),dp(100))
-                        #pos_hint: {"x":0.5, "y":0.6}
-                    TextIn:
-                        id: txtInputMedic
-                        hint_text: "Medicaciones"
-                        size_hint: (None,None)
-                        size: (dp(100),dp(100))
-                        #pos_hint: {"x":0.5, "y":0.6}
-                    TextIn:
-                        id: txtInputAlerg
-                        hint_text: "Alergias"
-                        size_hint: (None,None)
-                        size: (dp(100),dp(100))
-                        #pos_hint: {"x":0.5, "y":0.6}
-                    TextIn:
-                        id: txtInputObservc
-                        hint_text: "Observaciones"
-                        size_hint: (None,None)
-                        size: (dp(100),dp(100))
-                        #pos_hint: {"x":0.5, "y":0.6}
                     TextIn:
                         id: txtInputfFirstName
                         hint_text: "Nombre del familiar"
@@ -284,7 +246,7 @@
                         size: (dp(100),dp(100))
                         #pos_hint: {"x":0.7, "y":0.1}
                         on_press:
-                            root.submit()
+                            root.Submit()
 
             Screen:
                 name: "scrDashboard"
@@ -292,6 +254,255 @@
                 MDLabel:
                     text: "Dashboard del mes"
                     halign: "center"
+                    
+            Screen:
+                name: "scrPacient"
+
+                MDLabel:
+                    id: txtPatient
+                    text: "Pantalla del paciente"
+                    halign: "center"
+                    pos_hint: {"center_x": .5, "center_y": .8}
+
+
+                MDRaisedButton:
+                    text: "Expediente"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .25, "center_y": .6}
+                    on_press:
+                        screen_manager.current = "scrExpediente"
+
+                MDRaisedButton:
+                    text: "Antecedentes"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .75, "center_y": .6}
+                    on_press:
+                        screen_manager.current = "scrAntecedentes"
+                
+                MDRaisedButton:
+                    text: "Agenda"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .75, "center_y": .4}
+                    on_press:
+                        screen_manager.current = "scrAgenda"
+                
+                MDRaisedButton:
+                    text: "Consulta"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .25, "center_y": .4}
+                    on_press:
+                        screen_manager.current = "scrConsulta"
+
+                MDRaisedButton:
+                    text: "Regresar"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .5, "center_y": .2}
+                    on_press:
+                        screen_manager.current = "scrPacientes"
+
+            Screen:
+                name: "scrExpediente"
+
+                MDRaisedButton:
+                    text: "Guardar"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .75, "center_y": .2}
+                    on_press:
+                        screen_manager.current = "scrPacientes"
+
+                MDRaisedButton:
+                    text: "Regresar"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .25, "center_y": .2}
+                    on_press:
+                        screen_manager.current = "scrPacient"
+            
+            Screen:
+                name: "scrAntecedentes"
+
+                TextIn:
+                    id: txtInputAPat
+                    hint_text: "Antecedentes patologicos"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.25, "y":0.8}
+                TextIn:
+                    id: txtInputANPat
+                    hint_text: "Antecedentes no patologicos"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.75, "y":0.8}
+                
+                TextIn:
+                    id: txtInputProc
+                    hint_text: "Procedimientos"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.25, "y":0.6}
+                TextIn:
+                    id: txtInputHered
+                    hint_text: "Enf. Hereditarias"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.75, "y":0.6}
+                TextIn:
+                    id: txtInputMedic
+                    hint_text: "Medicaciones"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.25, "y":0.4}
+                TextIn:
+                    id: txtInputAlerg
+                    hint_text: "Alergias"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.75, "y":0.4}
+                TextIn:
+                    id: txtInputObservc
+                    hint_text: "Observaciones"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.25, "y":0.9}
+
+                MDRaisedButton:
+                    text: "Guardar"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .75, "center_y": .2}
+                    on_press:
+                        screen_manager.current = "scrPacientes"
+
+                MDRaisedButton:
+                    text: "Regresar"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .25, "center_y": .2}
+                    on_press:
+                        screen_manager.current = "scrPacient"
+
+            Screen:
+                name: "scrAgenda"
+
+                MDRaisedButton:
+                    text: "Guardar"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .75, "center_y": .2}
+                    on_press:
+                        screen_manager.current = "scrPacientes"
+
+                MDRaisedButton:
+                    text: "Regresar"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .25, "center_y": .2}
+                    on_press:
+                        screen_manager.current = "scrPacient"
+            
+            Screen:
+                name: "scrConsulta"
+
+                TextIn:
+                    id: txtInputHeight
+                    hint_text: "Altura"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.10, "y":0.8}
+                TextIn:
+                    id: txtInputWeight
+                    hint_text: "Peso"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.30, "y":0.8}
+                TextIn:
+                    id: txtInputTAS
+                    hint_text: "Tensis Sistólica"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.50, "y":0.8}
+                TextIn:
+                    id: txtInputTAD
+                    hint_text: "Tension Diastólica"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.70, "y":0.8}
+                TextIn:
+                    id: txtInputFR
+                    hint_text: "Frecuencia Respiratoria"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.90, "y":0.8}
+                TextIn:
+                    id: txtInputEL
+                    hint_text: "Estudio de laboratorio"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.2, "y":0.6}    
+                TextIn:
+                    id: txtInputEG
+                    hint_text: "Estudio de Gabinete"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.4, "y":0.6}
+
+                TextIn:
+                    id: txtInputEG
+                    hint_text: "Patologia"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.1, "y":0.4}
+                
+                TextIn:
+                    id: txtInputEG
+                    hint_text: "Medicamento"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.3, "y":0.4}
+                
+                TextIn:
+                    id: txtInputEG
+                    hint_text: "Unidad"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.5, "y":0.4}
+
+                TextIn:
+                    id: txtInputEG
+                    hint_text: "Frecuencia"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.7, "y":0.4}
+                
+                TextIn:
+                    id: txtInputEG
+                    hint_text: "Observaciones"
+                    size_hint: (None,None)
+                    size: (dp(100),dp(100))
+                    pos_hint: {"x":0.9, "y":0.25} 
+
+                MDRaisedButton:
+                    text: "Guardar"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .75, "center_y": .2}
+                    on_press:
+                        screen_manager.current = "scrPacientes"
+
+                MDRaisedButton:
+                    text: "Regresar"
+                    icon_left: 'delete-off'
+                    md_bg_color: 0, 0, 0.8, 0.4
+                    pos_hint: {"center_x": .25, "center_y": .2}
+                    on_press:
+                        screen_manager.current = "scrPacient"
+
 
         MDNavigationDrawer:
             id: nav_drawer
