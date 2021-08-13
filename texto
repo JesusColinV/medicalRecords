@@ -1,0 +1,90 @@
+    antecedentes
+    
+    '''txtInputPat
+    txtInputNPat
+    txtInputProc
+    txtInputHere
+    txtInputMed
+    txtInputAler
+    txtInputObsAn
+'''
+
+Agenda
+   '''
+    txtInputNatAg
+    txtInputCPAg
+    txtInputLocAg
+    txtInputmunAg
+    txtInputDireAg
+    txtInputTel
+    txtInputEmail
+    txtInputNameFam
+    txtInputsNameFam
+    txtInputSurNameFam
+    txtInputSecSurNameFam
+    txtInputObsAg'''
+
+    consultation
+      '''txtInputHeight
+    txtInputWeight
+    txtInputTAS
+    txtInputTAD
+    txtInputFR
+    txtInputEL
+    txtInputEG
+    txtInputObsCon'''
+
+    patologicos
+    
+    '''txtInputPato'''
+
+    medicamentos
+       '''txtInputMed
+        txtInputUnit
+        txtInputFreq
+    '''
+
+    inser Diastólica
+    Diastólica
+      '''txtInputDire
+    txtInputCP
+    txtInputTel
+    txtInputEmail
+    txtInputNameFam
+    txtInputsNameFam
+    txtInputSurNameFam
+    txtInputSecSurNameFam
+    txtInputObsAg'''
+
+
+    check record
+
+            #expediente
+        #id: LabDateExp
+        #text: "Pantalla del paciente"
+        #id: LabInputHeight
+        #hint_text: "Altura"
+        #id: LabInputWeight
+        #            text: "Peso"
+        #id: LabInputTAS
+        #            text: "Tensis Sistólica"
+        #id: LabInputTAD
+        #            text: "Tension Diastólica"
+        #id: LabInputFR
+        #            text: "Frecuencia Respiratoria"
+        #id: LabInputEL
+        #            text: "Estudio de laboratorio"
+        #id: LabInputEG
+        #            text: "Estudio de Gabinete"
+        #id: LabInputPat
+        #            text: "Patologia"
+        #id: LabInputMed
+        #            text: "Medicamento"
+        #id: LabInputUnit
+        #            text: "Unidad"
+        #id: LabInputFreq
+        #            text: "Frecuencia"
+        #id: LabInputObs
+        #            text: "Observaciones"
+
+

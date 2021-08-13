@@ -4,6 +4,7 @@ from kivy.properties import ObjectProperty
 from kivymd.uix import button
 from kivymd.uix.picker import MDDatePicker
 from kivy.uix.stacklayout import StackLayout
+from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from kivy.uix.screenmanager import ScreenManager, Screen 
 from kivymd.app import MDApp
@@ -14,9 +15,14 @@ from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
 from kivy.properties import NumericProperty, ListProperty,StringProperty
 from kivy.uix.popup import Popup
+import datetime
 import sqlite3
 import os
+import uuid
+
 Window.maximize()
+
+
 
 class ContentNavigationDrawer(BoxLayout):
     screen_manager = ObjectProperty()
@@ -43,20 +49,47 @@ class Main(Screen):
 
     def Submit(self):
         self.connect_to_database(DB_PATH,'insert')
+
+    def Consultation(self):
+        self.connect_to_database(DB_PATH,'newVisit')
     
     def Search(self):
         self.connect_to_database(DB_PATH,'consult')
+    
+    def save_path(self):
+        self.connect_to_database(DB_PATH,'insertPat')
+    
+    def save_drug(self):
+        self.connect_to_database(DB_PATH,'insertDrug')
+
+    def mk_consultation(self):
+        self.ids.idConsultation.text = str(uuid.uuid4())
+        print("Hola")
 
     def connect_to_database(self,path,metod):
         try:
             con = sqlite3.connect(path)
             self.cursor = con.cursor()
             if metod == 'create':
-                self.create_table_productos()
+                self.create_table_records()
+                self.create_table_antecedent()
+                self.create_table_agenda()
+                self.create_table_consultation()
+                self.create_table_patology()
+                self.create_table_medication()
             elif metod == 'insert':
-                self.insert_data()
+                self.insert_data_new()
             elif metod == 'consult':
                 self.check_records()
+            elif metod == 'view':
+                self.get_data()
+            elif metod == 'newVisit':
+                self.insert_consultation()
+            elif metod == 'insertPat':
+                self.insert_patology()
+            elif metod == 'insertDrug':
+                self.insert_drugs()
+
             '''elif metod == 'update':
                 self.update_data()
             elif metod == 'delete':
@@ -68,38 +101,133 @@ class Main(Screen):
         except Exception as e:
             print(e)
 
-    def create_table_productos(self):
+    def create_table_records(self):
+        try :
+            
+            self.cursor.execute('''create table if not exists Records(
+                        ID_pat text,
+                        fecha text,
+                        nombre text,
+                        snombre text,
+                        aPaterno text,
+                        aMaterno text,
+                        sexo text,
+                        fNacimiento text,
+                        curp text)
+                        ''')
+        except Exception as e:
+            print(e)
+
+    def create_table_antecedent(self):
         try :
             self.cursor.execute(
                 '''
-                CREATE TABLE Records(
-                ID              INTEGER PRIMARY KEY AUTOINCREMENT,
-                nombre          text                    NOT NULL,
-                snombre         text,
-                aPaterno        text                    NOT NULL,
-                aMaterno        text                    NOT NULL,
-                sexo            text                    NOT NULL,
-                fNacimiento     text                    NOT NULL,
-                curp            text                    NOT NULL,
-                nacionalidad    text                    NOT NULL,
-                codigo_postal   text                    NOT NULL,
-                localidad       text                    NOT NULL,
-                municipio       text                    NOT NULL,
-                direccion       text,
-                religion        text                    NOT NULL,
-                correo          text                    NOT NULL,
-                telefono        text                    NOT NULL,
-                faPaterno       text                    NOT NULL,
-                faMaterno       text,
-                faNombre        text                    NOT NULL,
-                fasNombre       text,
-                fTelefono       text                    NOT NULL
+                create table if not exists Antecedent(
+                ID_antecedent   text,
+                ID_patient      text,
+                fecha           text,
+                aPatologicos    text,
+                aNoPatologicos  text,
+                procedimiento   text,
+                hereditarios    text,
+                medicacion      text,
+                alergias        text,
+                religion        text,
+                observaciones   text,
+                FOREIGN KEY (ID_patient) REFERENCES Records(ID_pat)
                 )'''
             )
         except Exception as e:
             print(e)
 
-    def insert_data(self):
+
+    def create_table_agenda(self):
+        try :
+            self.cursor.execute(
+                '''
+                create table if not exists Agenda(
+                ID_patient      text,
+                ID_agenda       text,
+                fecha           text,
+                nacionalidad    text,
+                postalCode      text,
+                localidad       text,
+                municipio       text,
+                direccion       text,
+                telefono        text,
+                correo          text,
+                faPaterno       text,
+                faMaterno       text,
+                faNombre        text,
+                fasNombre       text,
+                fTelefono       text,
+                observaciones   text,
+                FOREIGN KEY (ID_patient) REFERENCES Records(ID_pat)
+                )'''
+            )
+        except Exception as e:
+            print(e)
+ 
+
+    def create_table_consultation(self):
+        try :
+            self.cursor.execute(
+                '''
+                create table if not exists Consultation(
+                ID_patient          text,
+                ID_consultation     text,
+                fecha               text,
+                altura              text,
+                peso                text,
+                tsistolica          text,
+                tdiastolica         text,
+                frecRespiratoria    text,
+                estuLaboratorio     text,
+                estuGabinete        text,
+                observaciones       text,
+                FOREIGN KEY (ID_patient) REFERENCES Records(ID_pat)
+                )'''
+            )
+        except Exception as e:
+            print(e)
+  
+
+    def create_table_patology(self):
+        try :
+            self.cursor.execute(
+                '''
+                create table if not exists Patology(
+                ID_patient          text,
+                ID_consultation     text,
+                fecha               text,
+                patologia           text,
+                cie                 text,
+                FOREIGN KEY (ID_patient) REFERENCES Records(ID_pat)
+                )'''
+            )
+        except Exception as e:
+            print(e)
+
+    def create_table_medication(self):
+        try :
+            self.cursor.execute(
+                '''
+                create table if not exists Medication(
+                ID_patient          text,
+                ID_consultation     text,
+                fecha               text,
+                medicamento         text,
+                unidad              text,
+                frecuencia          text,
+                FOREIGN KEY (ID_patient) REFERENCES Records(ID_pat)
+                )'''
+            )
+        except Exception as e:
+            print(e)
+ 
+    def insert_data_new(self):
+        # Records
+        id_pat= (uuid.uuid4())
         inFN = self.ids.txtInputFirstName.text #1
         insN = self.ids.txtInputSecondName.text #2
         inSN = self.ids.txtInputSurName1.text #3
@@ -107,30 +235,63 @@ class Main(Screen):
         inSex = self.ids.txtInputSex.text #5
         inBi = self.ids.txtInputDate.text #6
         inCurp = self.ids.txtInputCurp.text #7
-        inNati = self.ids.txtInputNati.text #8
-        inCP = self.ids.txtInputCP.text #9
-        inLoc = self.ids.txtInputLoc.text #10
-        inMun = self.ids.txtInputMun.text #11
-        inDir = self.ids.txtInputDir.text #12
-        inRel = self.ids.txtInputRel.text #13
-        inEm = self.ids.txtInputEmail.text #14
-        inPN = self.ids.txtInputPhoneNumber.text #15
+
+        # Agenda
+        id_agenda= str(uuid.uuid4())
+        inNati = self.ids.txtInputNati.text #1
+        inCP = self.ids.txtInputCP.text #2
+        inLoc = self.ids.txtInputLoc.text #3
+        inMun = self.ids.txtInputMun.text #4
+        inDir = self.ids.txtInputDir.text #5
+        inPN = self.ids.txtInputPhoneNumber.text #6
+        inEm = self.ids.txtInputEmail.text #7
+        infFN = self.ids.txtInputfFirstName.text #8
+        infsN = self.ids.txtInputfSecondName.text #9
+        infSN = self.ids.txtInputfSurName1.text #10
+        infSN2 = self.ids.txtInputfSurName2.text #11
+        infPN=self.ids.txtInputfPhoneNumber.text #12
+        InObs=self.ids.txtInputAgObsReg.text# 13
+        inDate= str(datetime.datetime.today())
+      
+
+        dataRec = (id_pat,inDate,inFN,insN,inSN,inSN2,inSex,inBi,inCurp)
+        dataAgenda = (id_agenda,id_pat,inDate,inNati,inCP,inLoc,inMun,inDir,inPN,inEm,infFN,infsN,infSN,infSN2,infPN,InObs)
         
-        infFN = self.ids.txtInputfFirstName.text #23
-        infsN = self.ids.txtInputfSecondName.text #24
-        infSN = self.ids.txtInputfSurName1.text #25
-        infSN2 = self.ids.txtInputfSurName2.text #26
-        infPN=self.ids.txtInputfPhoneNumber.text #27
-        data = (inFN,insN,inSN,inSN2,inSex,inBi,inCurp,inNati,inCP,inLoc,inMun,inRel,inEm,inDir,inPN,infFN,infsN,infSN,infSN2,infPN)
-        s1 = '''INSERT INTO Records(ID,nombre, snombre, aPaterno, aMaterno, sexo, fNacimiento, curp, nacionalidad,codigo_postal,localidad, municipio, 
-                direccion,religion,correo, telefono,faNombre, fasNombre, faPaterno, faMaterno, fTelefono )'''
-        s2 = 'VALUES(null,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % data
+        sRec1 = '''INSERT INTO Records(ID_pat,fecha,nombre,snombre,aPaterno,aMaterno,sexo,fNacimiento,curp)'''
+        sRec2 = 'VALUES("%s","%s","%s","%s","%s","%s","%s","%s","%s")' % dataRec
+        
+        sAgenda1 = '''INSERT INTO Agenda(ID_agenda,ID_patient,fecha,nacionalidad,postalCode,localidad, municipio,direccion,telefono,correo,faNombre, fasNombre, faPaterno, faMaterno, fTelefono,observaciones )'''
+        sAgenda2 = 'VALUES("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % dataAgenda
+        #self.ids.registerPage.clear_widgets()
+        self.ids.txtInputFirstName.text = ''
+        self.ids.txtInputSecondName.text = ''
+        self.ids.txtInputSurName1.text = ''
+        self.ids.txtInputSurName2.text = ''
+        self.ids.txtInputSex.text = ''
+        self.ids.txtInputDate.text = ''
+        self.ids.txtInputCurp.text = ''
+        self.ids.txtInputNati.text = ''
+        self.ids.txtInputCP.text = ''
+        self.ids.txtInputLoc.text = ''
+        self.ids.txtInputMun.text = ''
+        self.ids.txtInputDir.text = ''
+        self.ids.txtInputEmail.text = ''
+        self.ids.txtInputPhoneNumber.text = ''
+        self.ids.txtInputfFirstName.text = ''
+        self.ids.txtInputfSecondName.text = ''
+        self.ids.txtInputfSurName1.text = ''
+        self.ids.txtInputfSurName2.text = ''
+        self.ids.txtInputfPhoneNumber.text = ''
+        self.ids.txtInputAgObsReg.text = ''
         try:
-            self.cursor.execute(s1+' '+s2)
+            self.cursor.execute(sRec1+' '+sRec2)
+            #self.cursor.execute("INSERT INTO Agenda VALUES (null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", dataAgenda)
+            self.cursor.execute(sAgenda1+' '+sAgenda2) #un valor de más revisar el codigo previo de menus
         except Exception as e:
             print(e)
 
     def check_records(self):
+
         # cuadros = cursor.execute("SELECT * FROM cuadro  WHERE nombre='{}' ".format(buscador2.get())).fetchall()
         nombre= self.ids.txtInputSearch.text #26
         records=self.cursor.execute(f"SELECT nombre, snombre, aPaterno, aMaterno FROM Records WHERE nombre LIKE '{nombre}' or snombre LIKE '{nombre}' or aPaterno LIKE '{nombre}' or aPaterno LIKE '{nombre}'").fetchall()
@@ -144,13 +305,11 @@ class Main(Screen):
     def update_table(self,*args):
         self.ids.table_box.clear_widgets()
         self.data_table = MDDataTable(
+            use_pagination=True,
             pos_hint={'center_x':0.5,'center_y':0.5},
             size_hint = (0.9 , 0.6),
-            column_data=[
-                        ('num',dp(20)),
-                        ('Persona',dp(100)),
-                        ],
-            row_data=[(i+1,row) for i,row in enumerate(args)],
+            column_data=[(row,dp(120)) for row in ['Lista de pacientes']],
+            row_data=[tuple([row]) for row in args],
         )
         self.ids.table_box.add_widget(self.data_table)
         self.data_table.bind(on_row_press = self.row_check)
@@ -158,41 +317,135 @@ class Main(Screen):
     def row_check(self,instance_table, instance_row):
         print(instance_row.text)
         self.ids.screen_manager.current = "scrPacient"
-        self.ids.txtPatient.text = str(instance_row.text)
-        
+        self.ids.LabPatientNom.text = str(instance_row.text)
+        self.connect_to_database(DB_PATH,'view')
 
+    def get_data(self):
+        name = self.ids.LabPatientNom.text
+        data=self.cursor.execute(f"SELECT ID_pat,sexo,fNacimiento FROM Records WHERE nombre LIKE '{name.split()[0]}' and aPaterno LIKE '{name.split()[-2]}' and aMaterno LIKE '{name.split()[-1]}'").fetchall()
+        data=data[0]
+        self.ids.LabPatientID.text=data[0]
+        self.ids.LabPatientSex.text=data[1]
+        self.ids.LabPatientBird.text=data[2]
+
+        agenda_data=self.cursor.execute(f"SELECT * FROM Agenda WHERE ID_patient = '{data[0]}'").fetchall()
+        agenda_data=agenda_data[-1]
+        self.ids.txtInputNatAg.text=agenda_data[3]
+        self.ids.txtInputCPAg.text=agenda_data[4]
+        self.ids.txtInputLocAg.text=agenda_data[5]
+        self.ids.txtInputmunAg.text=agenda_data[6]
+        self.ids.txtInputDireAg.text=agenda_data[7]
+        self.ids.txtInputTel.text=agenda_data[8]
+        self.ids.txtInputEmailAg.text=agenda_data[9]
+        self.ids.txtInputSurNameFam.text=agenda_data[10]
+        self.ids.txtInputSecSurNameFam.text=agenda_data[11]
+        self.ids.txtInputNameFam.text=agenda_data[12]
+        self.ids.txtInputsNameFam.text=agenda_data[13]
+        self.ids.txtInputPNfam.text=agenda_data[14]
+        self.ids.txtInputObsAg.text=agenda_data[15]
+    
+    def insert_consultation(self):
+        ID_patient = self.ids.LabPatientID.text
+        fecha= str(datetime.datetime.today())
+        InHeight=self.ids.txtInputHeight.text
+        InWeight=self.ids.txtInputWeight.text
+        InTAS=self.ids.txtInputTAS.text
+        InTAD=self.ids.txtInputTAD.text
+        InFR=self.ids.txtInputFR.text
+        InEL=self.ids.txtInputEL.text
+        InEG=self.ids.txtInputEG.text
+        InObs=self.ids.txtInputObsCon.text
+
+        ID_consultation = self.ids.idConsultation.text
+        dataConsult = (ID_patient,ID_consultation,fecha,InHeight,InWeight,InTAS,InTAD,InFR,InEL,InEG,InObs)
+        sCon1 = '''INSERT INTO Consultation(ID_patient,ID_consultation,fecha,altura,peso,tsistolica,tdiastolica,frecRespiratoria,estuLaboratorio,estuGabinete,observaciones)'''
+        sCon2 = 'VALUES("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % dataConsult
+
+        self.ids.txtInputHeight.text= ''
+        self.ids.txtInputWeight.text= ''
+        self.ids.txtInputTAS.text= ''
+        self.ids.txtInputTAD.text= ''
+        self.ids.txtInputFR.text= ''
+        self.ids.txtInputEL.text= ''
+        self.ids.txtInputEG.text= ''
+        self.ids.txtInputObsCon.text = ''
+        try:
+            self.cursor.execute(sCon1+' '+sCon2)
+        except Exception as e:
+            print(e)
+
+    def insert_patology(self):
+        ID_patient = self.ids.LabPatientID.text
+        ID_consultation = self.ids.idConsultation.text
+        fecha= str(datetime.datetime.today())
+        IDCIE='001'
+        InPAT=self.ids.txtInputPato.text
         
+        dataPatology = (ID_patient,ID_consultation,fecha,IDCIE,InPAT)
+        sPatology1 = '''INSERT INTO Patology(ID_patient,ID_consultation,fecha,cie,patologia)'''
+        sPatology2 = 'VALUES("%s","%s","%s","%s","%s")' % dataPatology
+        self.ids.txtInputPato.text= ''
+        try:
+            self.cursor.execute(sPatology1 +' '+sPatology2)
+            self.update_table_pato(*dataPatology[3:])
+        except Exception as e:
+            print(e)
+
+    def insert_drugs(self):
+        InMED=self.ids.txtInputMed.text
+        InUNIT=self.ids.txtInputUnit.text
+        InFreq=self.ids.txtInputFreq.text
+        args=[InMED,InUNIT,InFreq]
+        self.ids.table_box_drugs.clear_widgets()
+        self.data_table_drugs = MDDataTable(
+            use_pagination=True,
+            pos_hint={'center_x':0.3,'center_y':0.7},
+            size_hint = (0.4 , 0.3),
+            column_data=[(row,dp(120)) for row in ['Medicamento','Unidad','Frecuencia']],
+            row_data=[tuple([row]) for row in args],
+        )
+        self.ids.table_box_drugs.add_widget(self.data_table_drugs)
+
+
+
+        #ID_patient = self.ids.LabPatientID.text
+        #ID_consultation = self.ids.idConsultation.text
+        #fecha= str(datetime.datetime.today())
+        
+        
+        #dataDrugs = (ID_patient,ID_consultation,fecha,InMED,InUNIT,InFreq)
+        #sDrug1 = '''INSERT INTO Medication(ID_patient,ID_consultation,fecha,medicamento,unidad,frecuencia)'''
+        #sDrug2 = 'VALUES("%s","%s","%s","%s","%s","%s")' % dataDrugs
+        #self.ids.txtInputMed.text= ''
+        #self.ids.txtInputUnit.text= ''
+        #self.ids.txtInputFreq.text= ''
+        #try:
+        #    self.cursor.execute(sDrug1 +' '+sDrug2)
+        #    self.update_table_drugs(*dataDrugs[3:])
+        #except Exception as e:
+        #    print(e)
+
+    #def update_table_drugs(self,*args):
+        
+    
+    def update_table_pato(self,*args):
+        self.ids.table_box_pato.clear_widgets()
+        self.data_table = MDDataTable(
+            use_pagination=True,
+            pos_hint={'center_x':0.3,'center_y':0.4},
+            size_hint = (0.4 , 0.3),
+            column_data=[(row,dp(30)) for row in ['Patologias','CIE']],
+            row_data=[tuple([row]) for row in args],
+        )
+        self.ids.table_box_pato.add_widget(self.data_table)
+
 
 class MessagePopup(Popup):
     pass
 
 class RegisterPage(StackLayout):
     pass
-
-'''class SearchPage(Screen):
-aPatologicos    text                    NOT NULL,
-                aNoPatologicos  text                    NOT NULL,
-                procedimiento   text                    NOT NULL,
-                hereditarios    text                    NOT NULL,
-                medicacion      text                    NOT NULL,
-                alergias        text                    NOT NULL,
-                observaciones   text                    NOT NULL,
-
-
-    inAPat = self.ids.txtInputAPat.text #16
-        inANPat= self.ids.txtInputANPat.text #17
-        inProc= self.ids.txtInputProc.text #18
-        inHered= self.ids.txtInputHered.text #19
-        inMedic= self.ids.txtInputMedic.text #20
-        inAlerg= self.ids.txtInputAlerg.text #21
-        inObserv= self.ids.txtInputObservc.text #22
-
-        ,inAPat,inANPat,
-                inProc,inHered,inMedic,inAlerg,inObserv
-        
-         aPatologicos, aNoPatologicos, procedimiento, hereditarios, medicacion, alergias, observaciones,
-        '''
-    
+ 
 
 class App(MDApp):
     def build(self):
