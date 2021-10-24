@@ -385,19 +385,6 @@
                         id: LabInputtypebg
                         text: "Antecedentes"
 
-                    TextIn:
-                        id: LabInputBackground
-                        hint_text: "Antecedente"
-                        size_hint: (None,None)
-                        size: (dp(100),dp(100))
-
-                    TextIn:
-                        id: LabInputDescriptionBg
-                        hint_text: "Descripción"
-                        size_hint: (None,None)
-                        size: (dp(100),dp(100))
-
-
                 MDBoxLayout:
                     id: table_box_background
                     pos_hint: {"center_x":.5,"top":.5}
@@ -422,6 +409,22 @@
                         root.titleBgPrev()
                         root.load_backgound()
 
+                MDBoxLayout:
+                    pos_hint: {"center_x":.5,"top":.5}
+                    size_hint: .4,.3
+
+                    TextIn:
+                        id: LabInputBackground
+                        hint_text: "Antecedente"
+                        size_hint: (None,None)
+                        size: (dp(100),dp(100))
+
+                    TextIn:
+                        id: LabInputDescriptionBg
+                        hint_text: "Descripción"
+                        size_hint: (None,None)
+                        size: (dp(100),dp(100))
+
                 MDRaisedButton:
                     text: "Guardar"
                     icon_left: 'delete-off'
@@ -444,241 +447,354 @@
             Screen:
                 name: "scrAgenda"
 
-                TextIn:
-                    id: txtInputNatAg
-                    hint_text: "Nacionalidad"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.2, "y":0.8}
-                TextIn:
-                    id: txtInputCPAg
-                    hint_text: "Código postal"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.4, "y":0.8}
-                TextIn:
-                    id: txtInputLocAg
-                    hint_text: "Localidad"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.6, "y":0.8}
-                TextIn:
-                    id: txtInputmunAg
-                    hint_text: "municipio"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.8, "y":0.8}
+                ScrollView:
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        padding: ("0dp","200dp","0dp","0dp")
 
-                TextIn:
-                    id: txtInputDireAg
-                    hint_text: "Direccion"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.2, "y":0.6}
-                
-                TextIn:
-                    id: txtInputTel
-                    hint_text: "Telefono"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.4, "y":0.6}
-                TextIn:
-                    id: txtInputEmailAg
-                    hint_text: "correo electronico"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.6, "y":0.6}
-                MDLabel:
-                    id: texto1
-                    text: "Datos del familiar"
-                    #size: (dp(100),dp(100))
-                    pos_hint: {"x":0.2, "y":0.5}
-                    #halign: "center"
-                    #pos_hint: {"center_x": .1, "center_y": .9}
-                TextIn:
-                    id: txtInputNameFam
-                    hint_text: "Nombre"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.2, "y":0.4}
-                TextIn:
-                    id: txtInputsNameFam
-                    hint_text: "Segundo Nombre"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.4, "y":0.4}   
-                TextIn:
-                    id: txtInputSurNameFam
-                    hint_text: "Primer Apellido"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.6, "y":0.4}
+                        MDBoxLayout:
+                            size_hint: (1,.05)
+                            padding: ("200dp","0dp","200dp","0dp")
+                            md_bg_color: 226/255, 233/255, 234/255, .5
+                            MDLabel:
+                                text: "Datos demograficos"
+                        
+                        StackLayout:
+                            orientation: 'lr-tb'
+                            padding: ("200dp","30dp","200dp","0dp")
+                            spacing: "200dp","50dp"
 
-                TextIn:
-                    id: txtInputSecSurNameFam
-                    hint_text: "Segundo Apellido"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.8, "y":0.4}
-                TextIn:
-                    id: txtInputPNfam
-                    hint_text: "Telefono"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.2, "y":0.2} 
-                TextIn:
-                    id: txtInputObsAg
-                    hint_text: "Observaciones"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.4, "y":0.2} 
+                            TextIn:
+                                id: txtInputNatAg
+                                hint_text: "Nacionalidad"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.2, "y":0.8}
+                            TextIn:
+                                id: txtInputCPAg
+                                hint_text: "Código postal"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.4, "y":0.8}
+                            TextIn:
+                                id: txtInputLocAg
+                                hint_text: "Localidad"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.6, "y":0.8}
+                            TextIn:
+                                id: txtInputmunAg
+                                hint_text: "municipio"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.8, "y":0.8}
 
-                MDRaisedButton:
-                    text: "Guardar"
-                    icon_left: 'delete-off'
-                    md_bg_color: 205/255, 96/255, 28/255, 1
-                    pos_hint: {"center_x": .9, "center_y": .2}
-                    on_press:
-                        screen_manager.current = "scrPacientes"
+                            TextIn:
+                                id: txtInputDireAg
+                                hint_text: "Direccion"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.2, "y":0.6}
+                            
+                        MDBoxLayout:
+                            size_hint: (1,.05)
+                            padding: ("200dp","0dp","200dp","0dp")
+                            md_bg_color: 226/255, 233/255, 234/255, .5
+                            MDLabel:
+                                text: "Datos de contacto"
 
-                MDRaisedButton:
-                    text: "Regresar"
-                    icon_left: 'delete-off'
-                    md_bg_color: 205/255, 96/255, 28/255, 1
-                    pos_hint: {"center_x": .8, "center_y": .2}
-                    on_press:
-                        screen_manager.current = "scrPacient"
+                        StackLayout:
+                            orientation: 'lr-tb'
+                            padding: ("200dp","30dp","200dp","0dp")
+                            spacing: "200dp","50dp"
+
+                            TextIn:
+                                id: txtInputTel
+                                hint_text: "Telefono"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.4, "y":0.6}
+                            TextIn:
+                                id: txtInputEmailAg
+                                hint_text: "correo electronico"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.6, "y":0.6}
+
+                        MDBoxLayout:
+                            size_hint: (1,.05)
+                            padding: ("200dp","0dp","200dp","0dp")
+                            md_bg_color: 226/255, 233/255, 234/255, .5
+                            MDLabel:
+                                text: "Datos del Familiar responsable"
+                        
+                        StackLayout:
+                            id: registerPage
+                            orientation: 'lr-tb'
+                            padding: ("200dp","30dp","200dp","0dp")
+                            spacing: "200dp","50dp"
+
+                            TextIn:
+                                id: txtInputNameFam
+                                hint_text: "Nombre"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.2, "y":0.4}
+                            TextIn:
+                                id: txtInputsNameFam
+                                hint_text: "Segundo Nombre"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.4, "y":0.4}   
+                            TextIn:
+                                id: txtInputSurNameFam
+                                hint_text: "Primer Apellido"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.6, "y":0.4}
+
+                            TextIn:
+                                id: txtInputSecSurNameFam
+                                hint_text: "Segundo Apellido"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.8, "y":0.4}
+                            TextIn:
+                                id: txtInputPNfam
+                                hint_text: "Telefono"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.2, "y":0.2} 
+                            TextIn:
+                                id: txtInputObsAg
+                                hint_text: "Observaciones"
+                                size_hint: (None,None)
+                                size: (dp(100),dp(100))
+                                pos_hint: {"x":0.4, "y":0.2} 
+                        
+                        StackLayout:
+                            orientation: 'rl-tb'
+                            padding: ("200dp","30dp","200dp","0dp")
+                            spacing: "200dp","50dp"
+                            
+                            MDRaisedButton:
+                                text: "Guardar"
+                                icon_left: 'delete-off'
+                                md_bg_color: 205/255, 96/255, 28/255, 1
+                                pos_hint: {"center_x": .9, "center_y": .2}
+                                on_press:
+                                    screen_manager.current = "scrPacientes"
+
+                            MDRaisedButton:
+                                text: "Regresar"
+                                icon_left: 'delete-off'
+                                md_bg_color: 205/255, 96/255, 28/255, 1
+                                pos_hint: {"center_x": .8, "center_y": .2}
+                                on_press:
+                                    screen_manager.current = "scrPacient"
             
             Screen:
                 name: "scrConsulta"
 
-                MDLabel:
-                    id: idConsultation
-                    text: 'Consulta'
-                    halign: "center"
-                    pos_hint: {"center_x": .9, "center_y": .1}
-
-                TextIn:
-                    id: txtInputHeight
-                    hint_text: "Altura"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.1, "y":0.8}
-                TextIn:
-                    id: txtInputWeight
-                    hint_text: "Peso"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.3, "y":0.8}
-                TextIn:
-                    id: txtInputTAS
-                    hint_text: "Tensis Sistólica"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.5, "y":0.8}
-                TextIn:
-                    id: txtInputTAD
-                    hint_text: "Tension Diastólica"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.7, "y":0.8}
-                TextIn:
-                    id: txtInputFR
-                    hint_text: "Frecuencia Respiratoria"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.9, "y":0.8}
-                TextIn:
-                    id: txtInputEL
-                    hint_text: "Estudio de laboratorio"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.1, "y":0.7}    
-                TextIn:
-                    id: txtInputEG
-                    hint_text: "Estudio de Gabinete"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.3, "y":0.7}
-
-                TextIn:
-                    id: txtInputPato
-                    hint_text: "Patologia"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.8, "y":0.7}
                 
-                
-                TextIn:
-                    id: txtInputMed
-                    hint_text: "Medicamento"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.8, "y":0.6}
-                
-                TextIn:
-                    id: txtInputUnit
-                    hint_text: "Unidad"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.8, "y":0.5}
-
-                TextIn:
-                    id: txtInputFreq
-                    hint_text: "Frecuencia"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.8, "y":0.4}
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    padding: ("0dp","80dp","0dp","0dp")
+                            
+                    MDBoxLayout:
+                        size_hint: (1,.05)
+                        padding: ("200dp","0dp","200dp","0dp")
+                        md_bg_color: 226/255, 233/255, 234/255, .5
+                        MDLabel:
+                            text: "Subjetivo"
                     
-                MDRaisedButton:
-                    text: "Registrar Medicamento"
-                    icon_left: 'delete-off'
-                    md_bg_color: 205/255, 96/255, 28/255, 1
-                    pos_hint: {"center_x": .7, "center_y": .5}
-                    on_press:
-                        root.save_drug()
+                    StackLayout:
+                        orientation: 'lr-tb'
+                        padding: ("200dp","30dp","200dp","0dp")
+                        spacing: "200dp","50dp"
 
-                MDRaisedButton:
-                    text: "Registrar Patologia"
-                    icon_left: 'delete-off'
-                    md_bg_color: 205/255, 96/255, 28/255, 1
-                    pos_hint: {"center_x": .7, "center_y": .7}
-                    on_press:
-                        root.save_path()
-                
-                MDBoxLayout:
-                    id: table_box_drugs
-                    pos_hint: {"center_x":.3,"top":.5}
-                    size_hint: .4,.3
-                
-                MDBoxLayout:
-                    id: table_box_pato
-                    pos_hint: {"center_x":.3,"top":.25}
-                    size_hint: .4,.3
+                        TextIn:
+                            id: txtInputObsCon
+                            hint_text: "Observaciones"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.1, "y":0.6} 
+                    
+                    MDBoxLayout:
+                        size_hint: (1,.05)
+                        padding: ("200dp","0dp","200dp","0dp")
+                        md_bg_color: 226/255, 233/255, 234/255, .5
+                        MDLabel:
+                            text: "Objetivo"
+                    
+                    StackLayout:
+                        orientation: 'lr-tb'
+                        padding: ("200dp","30dp","200dp","0dp")
+                        spacing: "200dp","50dp"
 
-                TextIn:
-                    id: txtInputObsCon
-                    hint_text: "Observaciones"
-                    size_hint: (None,None)
-                    size: (dp(100),dp(100))
-                    pos_hint: {"x":0.1, "y":0.6} 
+                        TextIn:
+                            id: txtInputHeight
+                            hint_text: "Altura"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.1, "y":0.8}
+                        TextIn:
+                            id: txtInputWeight
+                            hint_text: "Peso"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.3, "y":0.8}
+                        TextIn:
+                            id: txtInputTAS
+                            hint_text: "Tensis Sistólica"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.5, "y":0.8}
+                        TextIn:
+                            id: txtInputTAD
+                            hint_text: "Tension Diastólica"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.7, "y":0.8}
+                        TextIn:
+                            id: txtInputFR
+                            hint_text: "Frecuencia Respiratoria"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.9, "y":0.8}
 
-                MDRaisedButton:
-                    text: "Guardar"
-                    icon_left: 'delete-off'
-                    md_bg_color: 205/255, 96/255, 28/255, 1
-                    pos_hint: {"center_x": .9, "center_y": .2}
-                    on_press:
-                        root.Consultation()
-                        screen_manager.current = "scrPacientes"
+                    MDBoxLayout:
+                        size_hint: (1,.05)
+                        padding: ("200dp","0dp","200dp","0dp")
+                        md_bg_color: 226/255, 233/255, 234/255, .5
+                        MDLabel:
+                            text: "Analisis"
+                    
+                    StackLayout:
+                        orientation: 'lr-tb'
+                        padding: ("200dp","30dp","200dp","0dp")
+                        spacing: "200dp","50dp"
 
-                MDRaisedButton:
-                    text: "Regresar"
-                    icon_left: 'delete-off'
-                    md_bg_color: 205/255, 96/255, 28/255, 1
-                    pos_hint: {"center_x": .8, "center_y": .2}
-                    on_press:
-                        screen_manager.current = "scrPacient"
+                        TextIn:
+                            id: txtInputEL
+                            hint_text: "Estudio de laboratorio"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.1, "y":0.7}    
+                        TextIn:
+                            id: txtInputEG
+                            hint_text: "Estudio de Gabinete"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.3, "y":0.7}
+
+                    MDBoxLayout:
+                        size_hint: (1,.05)
+                        padding: ("200dp","0dp","200dp","0dp")
+                        md_bg_color: 226/255, 233/255, 234/255, .5
+                        MDLabel:
+                            text: "Plan"
+                    
+                    StackLayout:
+                        orientation: 'lr-tb'
+                        padding: ("200dp","30dp","200dp","0dp")
+                        spacing: "200dp","50dp"
+                    
+                        TextIn:
+                            id: txtInputPato
+                            hint_text: "Patologia"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.8, "y":0.7}
+                        
+                        
+                        TextIn:
+                            id: txtInputMed
+                            hint_text: "Medicamento"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.8, "y":0.6}
+                        
+                        TextIn:
+                            id: txtInputUnit
+                            hint_text: "Unidad"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.8, "y":0.5}
+
+                        TextIn:
+                            id: txtInputFreq
+                            hint_text: "Frecuencia"
+                            size_hint: (None,None)
+                            size: (dp(100),dp(100))
+                            pos_hint: {"x":0.8, "y":0.4}
+                            
+                        
+                    MDBoxLayout:
+                        size_hint: (1,.05)
+                        padding: ("200dp","0dp","200dp","0dp")
+                        md_bg_color: 226/255, 233/255, 234/255, .5
+                        MDLabel:
+                            text: "Tabla"
+                    
+                    StackLayout:
+                        orientation: 'lr-tb'
+                        padding: ("200dp","30dp","200dp","0dp")
+                        spacing: "200dp","50dp"
+
+                        MDBoxLayout:
+                            id: table_box_pato
+                            pos_hint: {"center_x":.3,"top":.25}
+                            size_hint: .4,.3
+
+                        MDBoxLayout:
+                            id: table_box_drugs
+                            pos_hint: {"center_x":.3,"top":.5}
+                            size_hint: .4,.3
+
+                    StackLayout:
+                        orientation: 'lr-tb'
+                        padding: ("200dp","30dp","200dp","0dp")
+                        spacing: "200dp","50dp"
+
+                        MDRaisedButton:
+                            text: "Registrar Medicamento"
+                            icon_left: 'delete-off'
+                            md_bg_color: 205/255, 96/255, 28/255, 1
+                            pos_hint: {"center_x": .7, "center_y": .5}
+                            on_press:
+                                root.save_drug()
+
+                        MDRaisedButton:
+                            text: "Registrar Patologia"
+                            icon_left: 'delete-off'
+                            md_bg_color: 205/255, 96/255, 28/255, 1
+                            pos_hint: {"center_x": .7, "center_y": .7}
+                            on_press:
+                                root.save_path()
+
+
+                        MDRaisedButton:
+                            text: "Guardar"
+                            icon_left: 'delete-off'
+                            md_bg_color: 205/255, 96/255, 28/255, 1
+                            pos_hint: {"center_x": .9, "center_y": .2}
+                            on_press:
+                                root.Consultation()
+                                screen_manager.current = "scrPacientes"
+
+                        MDRaisedButton:
+                            text: "Regresar"
+                            icon_left: 'delete-off'
+                            md_bg_color: 205/255, 96/255, 28/255, 1
+                            pos_hint: {"center_x": .8, "center_y": .2}
+                            on_press:
+                                screen_manager.current = "scrPacient"
+                        MDLabel:
+                            id: idConsultation
+                            text: 'Consulta'
+                            halign: "center"
+                            pos_hint: {"center_x": .9, "center_y": .1}
 
         MDNavigationDrawer:
             id: nav_drawer
