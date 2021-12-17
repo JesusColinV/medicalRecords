@@ -22,7 +22,10 @@ import sqlite3
 import os
 import uuid
 from datetime import datetime as dt
-from PaPDF import PaPDF
+try:
+    from PaPDF import PaPDF
+except:
+    pass
 
 
 
@@ -170,6 +173,7 @@ class Main(Screen):
             column_data=[(row,dp(40)) for row in ['Medicamento','Unidad','Frecuencia']],
             row_data=[(row[0],row[1],row[2]) for row in args],
         )
+        self.data_table_drugs.height=500
         self.ids.table_box_drugs.add_widget(self.data_table_drugs)
         self.data_table_drugs.bind(on_row_press = self.row_delete_drugs)
 
